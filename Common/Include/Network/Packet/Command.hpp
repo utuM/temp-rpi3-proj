@@ -12,13 +12,10 @@ public:
         kHandshake = 0x00, ///< 0x00, 
         kConfig,           ///< 0x01, 
         kSelect,           ///< 0x02, 
-        kStart,            ///< 0x03, 
+        kControl,          ///< 0x03, 
         kStatus,           ///< 0x04, 
-        kMeasure,          ///< 0x05, 
-        kPause,            ///< 0x06, 
-        kStop,             ///< 0x07, 
-        kRestart,          ///< 0x08, 
-        kAmt,              ///< 0x09,
+        kMeasure,          ///< 0x05,
+        kAmt,              ///< 0x06,
         kInvalid   = 0xFF
     } Info_t;
 
