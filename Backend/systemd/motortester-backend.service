@@ -1,0 +1,13 @@
+[Unit]
+Description=MotorTester Backend, v1.0.0
+After=network.target sys-subsystem-i2c.device
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/motortester-backend
+Restart=always
+RestartSec=5
+User=root
+
+[Install]
+WantedBy=multi-user.target
