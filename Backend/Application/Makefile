@@ -21,7 +21,9 @@ CXXFLAGS = -std=c++17 -Wall -Wextra \
 		-I ../../Common/Include/Network/Packet/Payload \
 		-I ../../Common/Include/Tools \
 		-I ../Libs/Include \
-		-I ../Libs/Include/Global
+		-I ../Libs/Include/Global \
+		-I ../Libs/Include/Logic \
+		-I ../Libs/Include/Logic/Phase
 		
 LDFLAGS  = 
 
