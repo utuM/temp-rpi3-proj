@@ -3,7 +3,9 @@
 
 #include <cstdint>
 #include "Action.hpp"
+#include "Measurement.hpp"
 #include "Phase.hpp"
+#include "State.hpp"
 #include "Test.hpp"
 
 class Payload
@@ -58,7 +60,22 @@ public:
      */    
     typedef struct __attribute__((packed)) Status
     {
-        
+        /// Current state in the testing processing sequence.
+        State::Index_t state;
+        /// Test sequence duration the application is already passed at this
+        /// moment.
+        uint32_t durMs;
+
+        /**
+         *
+         */
+        struct Phase
+        {
+            /// Current testing phase.
+            Phase::Index_t idx;
+            /// Current testing step.
+            uint8_t step; 
+        } phase;
     } Status_t;
 
     /**
@@ -66,7 +83,9 @@ public:
      */    
     typedef struct __attribute__((packed)) Measure
     {
-
+        /// Array of measurement structure instances to be sure enough set of
+        /// measurement values can be moved to the frontend.
+        Measurement::Info_t meas[Measurement::skArraySize];
     } Measure_t;
 };
 
