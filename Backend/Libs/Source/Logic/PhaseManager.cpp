@@ -287,7 +287,9 @@ ResultCode::Index_t PhaseManager::Tick(void)
         sStatus.phase.step = spCurrent->getStep();
         sStatus.durMs      = (SysTick::TicksMs() - sStartTickMs);
         if (spCurrent->isCompleted()) {
-            // TODO: 
+            sStatus.state = State::Index::kStopping;
+        } else {
+            sStatus.state = State::Index::kPaused;
         }
         break;
 
@@ -296,11 +298,33 @@ ResultCode::Index_t PhaseManager::Tick(void)
         if (ret != ResultCode::Index::kNoError) {
             return ret;
         }
-        sStatus.state = State::Index::kIdle;
+        // Check what to do the next.
+        if ((sPhaseIdx + 1u) < sPhasesAmt) { ///< still phases to complete
+            // If there are more phases to run, then select the next one and
+            // change the state to the "Starting" to launch the next phase.
+            ++sPhaseIdx;
+            spCurrent          = spSelected[sPhaseIdx];
+            sStatus.phase.idx  = Phase::Idx2Phase(sPhaseIdx);
+            sStatus.phase.step = 0u;
+            if (sConfig.mode <= Mode::Index::kAutoCustom) { ///< automatic mode
+                sStatus.state = State::Index::kStarting;
+            } else {                                        ///< manual mode
+                spCurrent = nullptr; 
+                sStatus.state = State::Index::kPaused;
+            }
+        } else {
+            // If there are no more phases to run, then change the state to the
+            // "Finishing" to complete the testing sequence.
+            sStatus.state = State::Index::kFinishing;
+        }
         break;
 
     case State::Index::kFinishing:
-        // TODO: 
+        spCurrent          = nullptr;
+        sPhaseIdx          = Phase::Idx2Phase(Phase::Index::kAmt);
+        sStatus.durMs      = (SysTick::TicksMs() - sStartTickMs);
+        sStatus.phase.step = 0u;
+        sStatus.state      = State::Index::kIdle;
         break;
     }
 
