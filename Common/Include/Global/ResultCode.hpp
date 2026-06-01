@@ -21,7 +21,9 @@ public:
         kErrSockOpenEventsMem,
         kErrSockConnSockInvFd,
         kErrSockConnCliInvFd,
+        kErrSockConnEpollBind,
         kErrSockCloseEpoll,
+        kErrSockCloseListen,
         kErrSockCloseSock,
     } Index_t;
 };

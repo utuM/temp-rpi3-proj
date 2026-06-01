@@ -6,6 +6,14 @@
 
 class Test
 {
+private:
+    /// 
+    static constexpr const uint8_t skDfltOrder[] = { Phase::kPhaseResist,
+            Phase::kSensorResist, Phase::kMotorLeak, Phase::kSensorLeak };
+
+    /// 
+    static const uint8_t skMaxOrderSize = sizeof(skDfltOrder);
+
 public:
     /**
      *
@@ -30,14 +38,6 @@ public:
         /// Loop setting: amount of test sequences might to be done.
         uint32_t loopAmt;
     } Option_t;
-
-private:
-    /// 
-    static constexpr const uint8_t skDfltOrder[] = { Phase::kPhaseResist,
-            Phase::kSensorResist, Phase::kMotorLeak, Phase::kSensorLeak };
-
-    /// 
-    static const uint8_t skMaxOrderSize = sizeof(skDfltOrder);
 };
 
 #endif // #ifndef __LOGIC_TEST_TEST_HPP

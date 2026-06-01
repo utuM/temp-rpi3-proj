@@ -1,6 +1,8 @@
 #ifndef __LOGIC_TEST_MODE_HPP
 #define __LOGIC_TEST_MODE_HPP
 
+#include <cstdint>
+
 class Mode
 {
 public:

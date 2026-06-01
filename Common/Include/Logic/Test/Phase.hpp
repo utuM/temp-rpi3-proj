@@ -1,6 +1,8 @@
 #ifndef __LOGIC_TEST_PHASE_HPP
 #define __LOGIC_TEST_PHASE_HPP
 
+#include <cstdint>
+
 class Phase
 {
 public:
