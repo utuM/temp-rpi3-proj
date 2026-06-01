@@ -6,6 +6,9 @@
 
 class Phase
 { 
+protected:
+    virtual ResultCode::Index_t configure(void *) = 0;
+
 public:
     ///
     static const uint8_t skPhaseMotorResistStepsAmt = 8u;
@@ -27,7 +30,6 @@ public:
         kSensorLeak           ///< 0x03, Sensor leakage current measurement
     } Index_t;
 
-    virtual ResultCode::Index_t setup(void *) = 0;
     virtual ResultCode::Index_t run(void)     = 0;
     virtual ResultCode::Index_t stop(void)    = 0;
 
@@ -43,7 +45,8 @@ public:
      */
     Phase(Index_t kType) :
             mType(kType),
-            mStep(0u)
+            mStep(0u),
+            mStepsAmt(0u)
     {
         switch (kType) {
         case kPhaseResist:
@@ -62,6 +65,14 @@ public:
             mStepsAmt = skPhaseSensLeakStepsAmt;
             break;
         }
+    }
+
+    ResultCode::Index_t setup(void *pCfg)
+    {
+        // Reset the current step index for sure.
+        mStep = 0u;
+        // Call internal method for the setup of the testing phase.
+        return configure(pCfg);  
     }
 
 protected:
@@ -92,16 +103,16 @@ public:
             return skPhaseMotorLeakStepsAmt;
 
         default:
-            break;
+            return skPhaseSensLeakStepsAmt;
         }
-        return skPhaseSensLeakStepsAmt;
+        return 0u;
     }
 
     /**
      * @brief  
      * @return 
      */
-    inline uint8_t getStepsAmt(void)
+    inline uint8_t getStepsAmt(void) const
     {
         return mStepsAmt;
     }

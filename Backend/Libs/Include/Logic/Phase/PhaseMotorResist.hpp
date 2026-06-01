@@ -6,6 +6,9 @@
 
 class PhaseMotorResist : public Phase
 {
+protected:
+    ResultCode::Index_t configure(void *) override;
+
 public:
     /**
      * @brief 
@@ -14,7 +17,6 @@ public:
             Phase(kPhaseResist)
     {}
 
-    ResultCode::Index_t setup(void *) override;
     ResultCode::Index_t run(void) override;
     ResultCode::Index_t stop(void) override;
 };

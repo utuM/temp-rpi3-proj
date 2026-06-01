@@ -7,10 +7,12 @@
  * @param  
  * @return 
  */
-ResultCode::Index_t PhaseSensResist::setup(void *)
+ResultCode::Index_t PhaseSensResist::configure(void *)
 {
     return ResultCode::Index::kNoError;
 }
+
+/* ************************************************************************* */
 
 /**
  * @brief 

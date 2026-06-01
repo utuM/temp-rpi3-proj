@@ -7,10 +7,12 @@
  * @param  
  * @return 
  */
-ResultCode::Index_t PhaseMotorLeak::setup(void *)
+ResultCode::Index_t PhaseMotorLeak::configure(void *)
 {
     return ResultCode::Index::kNoError;
 }
+
+/* ************************************************************************* */
 
 /**
  * @brief 

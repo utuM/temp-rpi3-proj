@@ -7,10 +7,12 @@
  * @param  
  * @return 
  */
-ResultCode::Index_t PhaseMotorResist::setup(void *)
+ResultCode::Index_t PhaseMotorResist::configure(void *)
 {
     return ResultCode::Index::kNoError;
 }
+
+/* ************************************************************************* */
 
 /**
  * @brief 
