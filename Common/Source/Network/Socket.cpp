@@ -13,7 +13,7 @@ ResultCode::Index_t Socket::_initServer(void)
     saddru_t addr;
 
     // Check that the listening file descriptor is valid for continuing.
-    if (mFdConn != skClosedFdIdx) {
+    if (mFdListen != skClosedFdIdx) {
         return ResultCode::Index::kErrSockOpenSockAlready;
     }
 
@@ -70,8 +70,12 @@ void Socket::_closeAll(void)
         close(mFdConn);
         mFdConn = skClosedFdIdx;
     }
-    if (!mPath.empty()) {
-        unlink(mPath.c_str());
+
+    // Remove the inter-communication socket only when the backend is stopping.
+    if (mRole == kServer) {    
+        if (!mPath.empty()) {
+            unlink(mPath.c_str());
+        }
     }
     // De-allocate memory has been occupied for events.
     if (mpCliEvt) {
@@ -167,14 +171,16 @@ ResultCode::Index_t Socket::uninit(void)
     if (mFdEpoll == skClosedFdIdx) {
         return ResultCode::Index::kErrSockCloseEpoll;
     }
-    _resetFd(mFdEpoll);    
+    _resetFd(mFdEpoll);
+
+#ifdef MOTOR_BACKEND
     // Close the connected frontend if this application is backend.
-    if (mRole == kServer) {
-        if (mFdListen == skClosedFdIdx) {
-            return ResultCode::Index::kErrSockCloseListen;
-        }
-        _resetFd(mFdListen);
+    if (mFdListen == skClosedFdIdx) {
+        return ResultCode::Index::kErrSockCloseListen;
     }
+    _resetFd(mFdListen);
+#endif // #ifdef MOTOR_BACKEND
+
     // Clean up the socket descriptor.
     if (mFdConn == skClosedFdIdx) {
         return ResultCode::Index::kErrSockCloseSock;
@@ -236,8 +242,7 @@ ResultCode::Index_t Socket::connect(void)
     mEvent.data.fd = mFdConn;
     epoll_ctl(mFdEpoll, EPOLL_CTL_ADD, mFdConn, &mEvent);
 
-    return ((mFdConn >= 0) ? ResultCode::Index::kNoError :
-            ResultCode::Index::kErrSockConnEpollBind);
+    return ResultCode::Index::kNoError;
 }
 
 /**
