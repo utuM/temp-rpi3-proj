@@ -13,7 +13,7 @@ public:
     typedef struct __attribute__((packed)) Option
     {
         /// Mode setting.
-        Mode_t         mode;
+        Mode::Index_t  mode;
         /// Phases order.
         Phase::Index_t order[skMaxOrderSize];
 
@@ -33,8 +33,8 @@ public:
 
 private:
     /// 
-    static constexpr const uint8_t skDfltOrder[] = { kPhaseResist,
-            kSensorResist, kMotorLeak, kSensorLeak };
+    static constexpr const uint8_t skDfltOrder[] = { Phase::kPhaseResist,
+            Phase::kSensorResist, Phase::kMotorLeak, Phase::kSensorLeak };
 
     /// 
     static const uint8_t skMaxOrderSize = sizeof(skDfltOrder);

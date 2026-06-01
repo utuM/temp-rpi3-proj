@@ -18,7 +18,7 @@ private:
     static const uint8_t skMagicSize = sizeof(skMagic);
 
     ///
-    static const uint8_t skPayloadSize = 32u;
+    static const uint8_t skPayloadSize = 40u;
 
     /* ******************************************************************* */
 

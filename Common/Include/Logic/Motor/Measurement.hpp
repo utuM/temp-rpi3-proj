@@ -30,19 +30,11 @@ public:
     typedef struct __attribute__((packed)) Info
     { 
         /// 
-        Type_t type;
-
-        /**
-         *
-         */
-        typedef union Value
-        {
-            float    f;
-            uint32_t u;
-        } Value_t;
-
+        Type_t   type;
         /// 
-        Value_t value;
+        uint32_t value;
+        ///
+        bool     isFloat;
     } Info_t;
 };
 

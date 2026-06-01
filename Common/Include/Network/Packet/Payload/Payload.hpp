@@ -69,7 +69,7 @@ public:
         /**
          *
          */
-        struct Phase
+        struct CurrentPhase
         {
             /// Current testing phase.
             Phase::Index_t idx;
