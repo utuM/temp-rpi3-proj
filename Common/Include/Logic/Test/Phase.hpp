@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <string>
 #include "ResultCode.hpp"
+#include "State.hpp"
 
 class Phase
 { 
@@ -47,6 +48,7 @@ public:
      */
     Phase(Index_t kType) :
             mType(kType),
+            mState(State::Index::kIdle),
             mStep(0u),
             mStepsAmt(0u)
     {
@@ -78,12 +80,17 @@ public:
         }
     }
 
+    /**
+     * @brief 
+     * @param  pCfg 
+     * @return  
+     */
     ResultCode::Index_t setup(void *pCfg)
     {
         // Reset the current step index for sure.
         mStep = 0u;
         // Call internal method for the setup of the testing phase.
-        return configure(pCfg);  
+        return configure(pCfg);
     }
 
 protected:
@@ -94,6 +101,9 @@ protected:
     /// other purposes.
     std::string mDescription;
 
+    /// Current processing state index.
+    State::Index_t mState;
+
     /// Current testing step.
     uint8_t mStep;
     /// The amount of steps are applicable for the current testing phase.
@@ -102,6 +112,16 @@ protected:
 public:
     /// Amount of possible/available testing phases for usage.
     static const uint8_t skTotalAmt = kAmt;
+
+    /**
+     * @brief Converts a phase index to a phase type.
+     * @param idx The index of the phase.
+     * @return The phase type corresponding to the index.
+     */
+    static inline Index_t Idx2Phase(uint8_t idx)
+    {
+        return ((idx <= skTotalAmt) ? static_cast<Index_t>(idx) : kAmt);
+    }
 
     /**
      * @brief 
@@ -136,12 +156,30 @@ public:
     }
 
     /**
+     * @brief 
+     * @return 
+     */
+    inline uint8_t getStep(void) const
+    {
+        return mStep;
+    }
+
+    /**
      * @brief  
      * @return 
      */
     inline uint8_t getStepsAmt(void) const
     {
         return mStepsAmt;
+    }
+
+    /**
+     * @brief  
+     * @return 
+     */
+    inline bool isCompleted(void) const
+    {
+        return (mStep >= mStepsAmt);
     }
 };
 
