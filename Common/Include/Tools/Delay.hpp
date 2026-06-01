@@ -12,7 +12,7 @@ public:
      */
     static inline void S(const uint32_t kS)
     {
-        usleep(kS * 1000000ull);
+        sleep(kS);
     }
 
     /**
