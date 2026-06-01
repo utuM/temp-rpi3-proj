@@ -12,8 +12,12 @@ CXX      = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra \
         -DMOTOR_BACKEND \
 		-I ../../Common/Include \
+		-I ../../Common/Include/Logic \
+		-I ../../Common/Include/Logic/Motor \
+		-I ../../Common/Include/Logic/Test \
 		-I ../../Common/Include/Network \
 		-I ../../Common/Include/Network/Packet \
+		-I ../../Common/Include/Network/Packet/Payload \
 		-I ../../Common/Include/Tools \
 		-I ../Libs/Include \
 		-I ../Libs/Include/Global \
