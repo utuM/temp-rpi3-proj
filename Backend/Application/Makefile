@@ -12,6 +12,7 @@ CXX      = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra \
         -DMOTOR_BACKEND \
 		-I ../../Common/Include \
+		-I ../../Common/Include/Global \
 		-I ../../Common/Include/Logic \
 		-I ../../Common/Include/Logic/Motor \
 		-I ../../Common/Include/Logic/Test \
@@ -20,16 +21,15 @@ CXXFLAGS = -std=c++17 -Wall -Wextra \
 		-I ../../Common/Include/Network/Packet/Payload \
 		-I ../../Common/Include/Tools \
 		-I ../Libs/Include \
-		-I ../Libs/Include/Global \
-		-I ../Libs/Include/Network \
-		-I ../Libs/Include/Network/Protocol \
-		-I ../Libs/Include/Tools
+		-I ../Libs/Include/Global
 		
 LDFLAGS  = 
 
 SRC = $(wildcard *.cpp \
         ../../Common/Source/*.cpp ../../Common/Source/**/*.cpp \
-        ../Libs/Source/*.cpp ../Libs/Source/**/*.cpp)
+		../../Common/Source/**/**/*.cpp \
+        ../Libs/Source/*.cpp ../Libs/Source/**/*.cpp \
+		../Libs/Source/**/**/*.cpp)
 OBJ = $(SRC:.cpp=.o)
 
 PROJECT_NAME = motortester
