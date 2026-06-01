@@ -85,6 +85,9 @@ protected:
     uint8_t mStepsAmt;
 
 public:
+    /// Amount of possible/available testing phases for usage.
+    static const uint8_t skTotalAmt = (kSensorLeak + 1);
+
     /**
      * @brief 
      * @param  idx 
