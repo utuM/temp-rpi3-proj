@@ -85,13 +85,14 @@ ResultCode::Index_t PhaseManager::Configure(const Test::Option_t & rOpts)
         break;
         
     case Mode::Index::kAutoCustom:
+        // Clean up the set of test instances.
+        memset(spSelected, 0x00, Phase::skTotalAmt * sizeof(Phase *));
         // Process the incoming phase indexes should be processed by the
         // backend.
         sPhasesAmt = 0u;
         for (uint8_t i = 0u; i < Test::skMaxOrderSize; i++) {
             if (rOpts.order[i] < Phase::Index::kAmt) {
-                spSelected[i] = spAllPhases[rOpts.order[i]];
-                ++sPhasesAmt;
+                spSelected[sPhasesAmt++] = spAllPhases[rOpts.order[i]];
             }
         }
         if (!sPhasesAmt) {
@@ -129,6 +130,52 @@ ResultCode::Index_t PhaseManager::Select(Phase::Index_t phase)
  */
 ResultCode::Index_t PhaseManager::Control(Action::Index_t act)
 {
+    // Process incoming action based on the current state of the testing
+    // process.
+    State::Index_t state = sStatus.state;
+    switch (act) {
+    case Action::Index::kStart:
+        // Check if the testing sequence is not awaiting for the start and
+        // not paused.
+        if ((state != State::Index::kIdle) ||
+                (state == State::Index::kPaused)) {
+            return ResultCode::Index::kErrPhaseInvalidState;
+        }
+        break;
+        
+    case Action::Index::kContinue:
+        // Check if the testing sequence is already starting itself, running
+        // the processes or stopping/finishing the current actual test.
+        if ((state == State::Index::kStarting) ||
+                (state == State::Index::kRunning) ||
+                (state >= State::Index::kStopping)) {
+            return ResultCode::Index::kErrPhaseInvalidState;
+        }
+        break;
+
+    case Action::Index::kPause: 
+        // Check if the testing sequence is not running at the moment, so
+        // nothing to pause here.
+        if ((state == State::Index::kIdle) ||
+                (state == State::Index::kPaused) ||
+                (state >= State::Index::kStopping)) {
+            return ResultCode::Index::kErrPhaseInvalidState;
+        }
+        break;
+    
+    case Action::Index::kStop:
+        // Check if the testing sequence is not running at the moment, so
+        // nothing to stop here.
+        if ((state == State::Index::kIdle) ||
+                (state >= State::Index::kStopping)) {
+            return ResultCode::Index::kErrPhaseInvalidState;
+        }
+        break;
+    
+    case Action::Index::kRestart:
+        // TODO: place a code to trigger the Backend to restart.
+        break;  
+    }
     return ResultCode::Index::kNoError;
 }
 
@@ -138,14 +185,19 @@ ResultCode::Index_t PhaseManager::Control(Action::Index_t act)
  */
 ResultCode::Index_t PhaseManager::Tick(void)
 {
+    // Allow to return positive result in a case when the manager is waiting
+    // for incoming commands.
+    if (sStatus.state == State::Index::kIdle) {
+        return ResultCode::Index::kNoError;
+    }
     // Check if the pointer to the current testing phase instance is null.
     if (!spCurrent) {
         // If so, then the testing phase is not selected yet, so return with
         // the error code.
         return ResultCode::Index::kErrPhaseNotSelected;
     }
-
-
+    // Run the state machine.
+    // TODO: 
 
     return ResultCode::Index::kNoError;
 }
