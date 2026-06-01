@@ -13,7 +13,9 @@ static Backend *spBackend = nullptr;
 static void Signal_Handler(int sig)
 {
     (void) sig;
-    spBackend->stop();
+    if (spBackend) { 
+        spBackend->stop();
+    }
 }
 
 /* ************************************************************************* */
