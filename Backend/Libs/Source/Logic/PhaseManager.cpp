@@ -1,9 +1,16 @@
 #include "PhaseManager.hpp"
 
+static PhaseMotorResist sPhaseMotorResist;
+static PhaseSensResist  sPhaseSensResist;
+static PhaseMotorLeak   sPhaseMotorLeak;
+static PhaseSensLeak    sPhaseSensLeak;
+
+/* ************************************************************************* */
+
 Phase *PhaseManager::spSelected[Phase::skTotalAmt] = { nullptr };
 Phase *PhaseManager::spCurrent                     = nullptr;
 
-State::Index_t PhaseManager::sState = State::Index::kIdle;
+Status::Info_t PhaseManager::sStatus;
 
 Test::Option_t PhaseManager::sConfig;
 
@@ -55,4 +62,13 @@ ResultCode::Index_t PhaseManager::Tick(void)
     }
 
     return ResultCode::Index::kNoError;
+}
+
+/**
+ * @brief 
+ * @return 
+ */
+Status::Info_t PhaseManager::GetStatus(void)
+{
+    return sStatus;
 }

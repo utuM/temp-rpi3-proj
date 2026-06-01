@@ -4,8 +4,10 @@
 #include <cstdint>
 #include "Action.hpp"
 #include "Phase.hpp"
+#include "PhasesList.hpp"
 #include "ResultCode.hpp"
 #include "State.hpp"
+#include "Status.hpp"
 #include "Test.hpp"
 
 class PhaseManager
@@ -16,14 +18,16 @@ public:
     static ResultCode::Index_t Control(Action::Index_t);
     static ResultCode::Index_t Tick(void);
 
+    static Status::Info_t GetStatus(void);
+
 private: 
     /// Array of pointers with the selected phases ordering.
     static Phase *spSelected[Phase::skTotalAmt];
     /// Pointer to the current testing phase is running at this moment.
     static Phase *spCurrent;
 
-    /// Current processing state.
-    static State::Index_t sState;
+    /// Current status instance.
+    static Status::Info_t sStatus;
 
     /// Instance of the testing settings.
     static Test::Option_t sConfig;
@@ -38,7 +42,7 @@ public:
      */
     static inline State::Index_t GetState(void)
     {
-        return sState;
+        return sStatus.state;
     }
 };
 
