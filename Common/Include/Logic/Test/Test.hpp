@@ -11,10 +11,10 @@ private:
     static constexpr const uint8_t skDfltOrder[] = { Phase::kPhaseResist,
             Phase::kSensorResist, Phase::kMotorLeak, Phase::kSensorLeak };
 
+public:
     /// 
     static const uint8_t skMaxOrderSize = sizeof(skDfltOrder);
 
-public:
     /**
      *
      */
@@ -22,6 +22,7 @@ public:
     {
         /// Mode setting.
         Mode::Index_t  mode;
+
         /// Phases order.
         Phase::Index_t order[skMaxOrderSize];
 
