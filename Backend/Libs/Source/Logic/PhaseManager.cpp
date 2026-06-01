@@ -1,5 +1,6 @@
 #include <cstring>
 #include "PhaseManager.hpp"
+#include "SysTick.hpp"
 
 static PhaseMotorResist sPhaseMotorResist;
 static PhaseSensResist  sPhaseSensResist;
@@ -137,20 +138,26 @@ ResultCode::Index_t PhaseManager::Control(Action::Index_t act)
     case Action::Index::kStart:
         // Check if the testing sequence is not awaiting for the start and
         // not paused.
-        if ((state != State::Index::kIdle) ||
-                (state == State::Index::kPaused)) {
+        if (state != State::Index::kIdle) {
             return ResultCode::Index::kErrPhaseInvalidState;
         }
+        // Reset the fields before enabling the state machine.
+        sPhaseIdx     = 0u;
+        spCurrent     = spSelected[0];
+        sStartTickMs  = SysTick::TicksMs();
+        sStatus.state = State::Index::kStarting;
         break;
         
     case Action::Index::kContinue:
         // Check if the testing sequence is already starting itself, running
         // the processes or stopping/finishing the current actual test.
-        if ((state == State::Index::kStarting) ||
+        if ((state <= State::Index::kStarting) ||
                 (state == State::Index::kRunning) ||
                 (state >= State::Index::kStopping)) {
             return ResultCode::Index::kErrPhaseInvalidState;
         }
+        // Change the manager state to the "Running" one to continue the processing.
+        sStatus.state = State::Index::kRunning;
         break;
 
     case Action::Index::kPause: 
@@ -161,6 +168,9 @@ ResultCode::Index_t PhaseManager::Control(Action::Index_t act)
                 (state >= State::Index::kStopping)) {
             return ResultCode::Index::kErrPhaseInvalidState;
         }
+        // Change the manager state to the "Paused" to prevent ticking of the
+        // manager.
+        sStatus.state = State::Index::kPaused;
         break;
     
     case Action::Index::kStop:
@@ -170,6 +180,9 @@ ResultCode::Index_t PhaseManager::Control(Action::Index_t act)
                 (state >= State::Index::kStopping)) {
             return ResultCode::Index::kErrPhaseInvalidState;
         }
+        // Change the manager state to the "Stopping" to launch the stopping 
+        // process for the current selected testing sequence.
+        sStatus.state = State::Index::kStopping;
         break;
     
     case Action::Index::kRestart:
