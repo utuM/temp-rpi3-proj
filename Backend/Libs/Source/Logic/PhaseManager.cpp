@@ -129,11 +129,12 @@ ResultCode::Index_t PhaseManager::Select(Phase::Index_t phase)
         return ResultCode::Index::kErrPhaseInvalidState;
     }
     // Do not allow to select the phase if the testing sequence is already running.
-    if (sStatus.state != State::Index::kPaused) {
+    if ((sStatus.state != State::Index::kIdle) &&
+            (sStatus.state != State::Index::kPaused)) {
         return ResultCode::Index::kErrPhaseInvalidState;
     }
     // Do not select anything outside of the possible test indexes.
-    if (phase >= Phase::Index::kAmt) {
+    if (phase >= sPhasesAmt) {
         return ResultCode::Index::kErrPhaseNotSelected;
     }
     // Update the current phase index and pointer to the current phase instance
