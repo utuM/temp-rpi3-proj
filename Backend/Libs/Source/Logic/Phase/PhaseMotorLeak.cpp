@@ -7,9 +7,9 @@
  * @param  
  * @return 
  */
-int PhaseMotorLeak::setup(void *)
+ResultCode::Index_t PhaseMotorLeak::setup(void *)
 {
-    return 0;
+    return ResultCode::Index::kNoError;
 }
 
 /**
@@ -17,9 +17,9 @@ int PhaseMotorLeak::setup(void *)
  * @param  
  * @return 
  */
-int PhaseMotorLeak::run(void)
+ResultCode::Index_t PhaseMotorLeak::run(void)
 {
-    return 0;
+    return ResultCode::Index::kNoError;
 }
 
 /**
@@ -27,7 +27,7 @@ int PhaseMotorLeak::run(void)
  * @param  
  * @return 
  */
-int PhaseMotorLeak::stop(void)
+ResultCode::Index_t PhaseMotorLeak::stop(void)
 {
-    return 0;
+    return ResultCode::Index::kNoError;
 }

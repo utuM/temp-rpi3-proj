@@ -14,9 +14,9 @@ public:
             Phase(kSensorResist)
     {}
 
-    int setup(void *) override;
-    int run(void) override;
-    int stop(void) override;
+    ResultCode::Index_t setup(void *) override;
+    ResultCode::Index_t run(void) override;
+    ResultCode::Index_t stop(void) override;
 };
 
 #endif // #ifndef __LOGIC_PHASE_PHASE_SENSOR_RESIST_HPP

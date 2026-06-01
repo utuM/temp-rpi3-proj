@@ -2,18 +2,19 @@
 #define __LOGIC_TEST_PHASE_HPP
 
 #include <cstdint>
+#include "ResultCode.hpp"
 
 class Phase
 { 
 public:
     ///
-    static const uint8_t skPhase1MaxStep = 8u;
+    static const uint8_t skPhaseMotorResistStepsAmt = 8u;
     ///
-    static const uint8_t skPhase2MaxStep = 10u;
+    static const uint8_t skPhaseSensResistStepsAmt  = 10u;
     ///
-    static const uint8_t skPhase3MaxStep = 12u;
+    static const uint8_t skPhaseMotorLeakStepsAmt   = 12u;
     ///
-    static const uint8_t skPhase4MaxStep = 10u;
+    static const uint8_t skPhaseSensLeakStepsAmt    = 10u;
 
     /**
      *
@@ -26,17 +27,9 @@ public:
         kSensorLeak           ///< 0x03, Sensor leakage current measurement
     } Index_t;
 
-    virtual int setup(void *) = 0;
-    virtual int run(void)   = 0;
-    virtual int stop(void)  = 0;
-
-    /**
-     * @brief 
-     * @param kIndex
-     */
-    Phase(Index_t kIndex) :
-            mIndex(kIndex)
-    {}
+    virtual ResultCode::Index_t setup(void *) = 0;
+    virtual ResultCode::Index_t run(void)     = 0;
+    virtual ResultCode::Index_t stop(void)    = 0;
 
     /**
      * @brief 
@@ -44,8 +37,74 @@ public:
     virtual ~Phase(void)
     {}
 
+    /**
+     * @brief 
+     * @param kType 
+     */
+    Phase(Index_t kType) :
+            mType(kType),
+            mStep(0u)
+    {
+        switch (kType) {
+        case kPhaseResist:
+            mStepsAmt = skPhaseMotorResistStepsAmt;
+            break;
+            
+        case kSensorResist:
+            mStepsAmt = skPhaseSensResistStepsAmt;
+            break;
+            
+        case kMotorLeak:
+            mStepsAmt = skPhaseMotorLeakStepsAmt;
+            break;
+
+        case kSensorLeak:
+            mStepsAmt = skPhaseSensLeakStepsAmt;
+            break;
+        }
+    }
+
 protected:
-    Index_t mIndex;
+    /// Type of the testing phase this class is identified with.
+    Index_t mType;
+
+    /// Current testing step.
+    uint8_t mStep;
+    /// The amount of steps are applicable for the current testing phase.
+    uint8_t mStepsAmt;
+
+public:
+    /**
+     * @brief 
+     * @param  idx 
+     * @return 
+     */
+    static inline uint8_t Phase2StepsAmt(Index_t idx)
+    {
+        switch (idx) {
+        case kPhaseResist:
+            return skPhaseMotorResistStepsAmt;
+
+        case kSensorResist:
+            return skPhaseSensResistStepsAmt;
+
+        case kMotorLeak:
+            return skPhaseMotorLeakStepsAmt;
+
+        default:
+            break;
+        }
+        return skPhaseSensLeakStepsAmt;
+    }
+
+    /**
+     * @brief  
+     * @return 
+     */
+    inline uint8_t getStepsAmt(void)
+    {
+        return mStepsAmt;
+    }
 };
 
 #endif // __LOGIC_TEST_PHASE_HPP

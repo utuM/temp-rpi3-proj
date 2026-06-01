@@ -7,9 +7,9 @@
  * @param  
  * @return 
  */
-int PhaseMotorResist::setup(void *)
+ResultCode::Index_t PhaseMotorResist::setup(void *)
 {
-    return 0;
+    return ResultCode::Index::kNoError;
 }
 
 /**
@@ -17,9 +17,9 @@ int PhaseMotorResist::setup(void *)
  * @param  
  * @return 
  */
-int PhaseMotorResist::run(void)
+ResultCode::Index_t PhaseMotorResist::run(void)
 {
-    return 0;
+    return ResultCode::Index::kNoError;
 }
 
 /**
@@ -27,7 +27,7 @@ int PhaseMotorResist::run(void)
  * @param  
  * @return 
  */
-int PhaseMotorResist::stop(void)
+ResultCode::Index_t PhaseMotorResist::stop(void)
 {
-    return 0;
+    return ResultCode::Index::kNoError;
 }
