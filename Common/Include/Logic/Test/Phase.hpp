@@ -4,7 +4,7 @@
 #include <cstdint>
 
 class Phase
-{
+{ 
 public:
     ///
     static const uint8_t skPhase1MaxStep = 8u;
@@ -25,6 +25,27 @@ public:
         kMotorLeak,           ///< 0x02, Motor leakage current measurement
         kSensorLeak           ///< 0x03, Sensor leakage current measurement
     } Index_t;
+
+    virtual int setup(void *) = 0;
+    virtual int run(void)   = 0;
+    virtual int stop(void)  = 0;
+
+    /**
+     * @brief 
+     * @param kIndex
+     */
+    Phase(Index_t kIndex) :
+            mIndex(kIndex)
+    {}
+
+    /**
+     * @brief 
+     */
+    virtual ~Phase(void)
+    {}
+
+protected:
+    Index_t mIndex;
 };
 
 #endif // __LOGIC_TEST_PHASE_HPP
