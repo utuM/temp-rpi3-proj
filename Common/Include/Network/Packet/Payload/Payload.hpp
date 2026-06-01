@@ -32,7 +32,7 @@ public:
     typedef struct __attribute__((packed)) Config
     {
         /// Configuration for the test session.
-        Test::Option_t opt;
+        Test::Option_t config;
     } Config_t;
 
     /**
