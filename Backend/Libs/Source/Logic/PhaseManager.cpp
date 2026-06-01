@@ -121,6 +121,26 @@ ResultCode::Index_t PhaseManager::Configure(const Test::Option_t & rOpts)
  */
 ResultCode::Index_t PhaseManager::Select(Phase::Index_t phase)
 {
+    // Prevent to select phase by the Frontend if the Backend is running one of
+    // the automatic modes.
+    if (sConfig.mode <= Mode::Index::kAutoCustom) {
+        // If the mode is "Auto" or "Auto Custom", then the phase selection is
+        // not allowed, so return with the error code.
+        return ResultCode::Index::kErrPhaseInvalidState;
+    }
+    // Do not allow to select the phase if the testing sequence is already running.
+    if (sStatus.state != State::Index::kPaused) {
+        return ResultCode::Index::kErrPhaseInvalidState;
+    }
+    // Do not select anything outside of the possible test indexes.
+    if (phase >= Phase::Index::kAmt) {
+        return ResultCode::Index::kErrPhaseNotSelected;
+    }
+    // Update the current phase index and pointer to the current phase instance
+    // based on the phase instances order.
+    sPhaseIdx = phase;
+    spCurrent = spSelected[phase];
+
     return ResultCode::Index::kNoError;
 }
 
@@ -136,14 +156,33 @@ ResultCode::Index_t PhaseManager::Control(Action::Index_t act)
     State::Index_t state = sStatus.state;
     switch (act) {
     case Action::Index::kStart:
-        // Check if the testing sequence is not awaiting for the start and
-        // not paused.
-        if (state != State::Index::kIdle) {
-            return ResultCode::Index::kErrPhaseInvalidState;
+        // Check the mode and select what to do based on its value.
+        if (sConfig.mode <= Mode::Index::kAutoCustom) {
+            // Check if the testing sequence is not awaiting for the start and
+            // not paused.
+            if (state != State::Index::kIdle) {
+                return ResultCode::Index::kErrPhaseInvalidState;
+            }
+            // If the mode is "Auto" or "Auto Custom", then just start the
+            // testing sequence based on the selected phases.
+            if (!spSelected[0]) {
+                return ResultCode::Index::kErrPhaseNotSelected;
+            }
+            sPhaseIdx = 0u;
+            spCurrent = spSelected[0];
+        } else {
+            // Check if the testing sequence is not awaiting for the start and
+            // not paused.
+            if ((state != State::Index::kIdle) &&
+                    (state != State::Index::kPaused)) {
+                return ResultCode::Index::kErrPhaseInvalidState;
+            }
+            // Before staring the testing phase instance should be transmitted to the 
+            if (!spCurrent) {
+                return ResultCode::Index::kErrPhaseNotSelected;
+            }
         }
         // Reset the fields before enabling the state machine.
-        sPhaseIdx     = 0u;
-        spCurrent     = spSelected[0];
         sStartTickMs  = SysTick::TicksMs();
         sStatus.state = State::Index::kStarting;
         break;
