@@ -288,7 +288,7 @@ ResultCode::Index_t PhaseManager::Tick(void)
         sStatus.durMs      = (SysTick::TicksMs() - sStartTickMs);
         if (spCurrent->isCompleted()) {
             sStatus.state = State::Index::kStopping;
-        } else {
+        } else if (sConfig.mode == Mode::Index::kManual) {
             sStatus.state = State::Index::kPaused;
         }
         break;
@@ -321,11 +321,14 @@ ResultCode::Index_t PhaseManager::Tick(void)
 
     case State::Index::kFinishing:
         spCurrent          = nullptr;
-        sPhaseIdx          = Phase::Idx2Phase(Phase::Index::kAmt);
+        sPhaseIdx          = 0u;
         sStatus.durMs      = (SysTick::TicksMs() - sStartTickMs);
         sStatus.phase.step = 0u;
         sStatus.state      = State::Index::kIdle;
         break;
+
+    default:
+        return ResultCode::Index::kErrPhaseNothingToRun;
     }
 
     return ResultCode::Index::kNoError;
