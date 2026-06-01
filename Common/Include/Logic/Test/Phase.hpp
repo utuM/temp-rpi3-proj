@@ -2,6 +2,7 @@
 #define __LOGIC_TEST_PHASE_HPP
 
 #include <cstdint>
+#include <string>
 #include "ResultCode.hpp"
 
 class Phase
@@ -51,23 +52,28 @@ public:
     {
         switch (kType) {
         case kPhaseResist:
-            mStepsAmt = skPhaseMotorResistStepsAmt;
+            mStepsAmt    = skPhaseMotorResistStepsAmt;
+            mDescription = "Motor Phase Resistance Measurement";
             break;
             
         case kSensorResist:
-            mStepsAmt = skPhaseSensResistStepsAmt;
+            mStepsAmt    = skPhaseSensResistStepsAmt;
+            mDescription = "Sensor Resistance Measurement";
             break;
             
         case kMotorLeak:
-            mStepsAmt = skPhaseMotorLeakStepsAmt;
+            mStepsAmt    = skPhaseMotorLeakStepsAmt;
+            mDescription = "Motor Leakage Current Measurement";
             break;
 
         case kSensorLeak:
-            mStepsAmt = skPhaseSensLeakStepsAmt;
+            mStepsAmt    = skPhaseSensLeakStepsAmt;
+            mDescription = "Sensor Leakage Current Measurement";
             break;
 
         default:
             mStepsAmt = 0;
+            mDescription = "Unknown Phase";
             break;
         }
     }
@@ -83,6 +89,10 @@ public:
 protected:
     /// Type of the testing phase this class is identified with.
     Index_t mType;
+
+    /// Description of the testing phase, might be used for debugging and
+    /// other purposes.
+    std::string mDescription;
 
     /// Current testing step.
     uint8_t mStep;
@@ -114,6 +124,15 @@ public:
             return skPhaseSensLeakStepsAmt;
         }
         return 0u;
+    }
+
+    /**
+     * @brief 
+     * @return 
+     */
+    inline const char * getDescription(void) const
+    {
+        return mDescription.c_str();
     }
 
     /**
