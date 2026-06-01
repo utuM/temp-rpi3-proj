@@ -58,24 +58,11 @@ public:
      * Testing phase processing status payload: sharing information about the
      * current processing step, status, about errors and other temporary stuff.
      */    
-    typedef struct __attribute__((packed)) Status
+    typedef struct __attribute__((packed)) StatusOut
     {
-        /// Current state in the testing processing sequence.
-        State::Index_t state;
-        /// Test sequence duration the application is already passed at this
-        /// moment.
-        uint32_t durMs;
-
-        /**
-         *
-         */
-        struct CurrentPhase
-        {
-            /// Current testing phase.
-            Phase::Index_t idx;
-            /// Current testing step.
-            uint8_t step; 
-        } phase;
+        /// Instance of the status information structure to be transmitted to
+        /// the frontend.
+        Status::Info_t info;
     } Status_t;
 
     /**
