@@ -29,6 +29,11 @@ private:
     /// Pointer to the current testing phase is running at this moment.
     static Phase *spCurrent;
 
+    /// Current index of running test referenced to the selected phases array.
+    static uint8_t sPhaseIdx;
+    /// Amount of tests should be run and completed.
+    static uint8_t sPhasesAmt;
+
     /// Current status instance.
     static Status::Info_t sStatus;
 
