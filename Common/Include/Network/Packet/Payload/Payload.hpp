@@ -6,6 +6,7 @@
 #include "Measurement.hpp"
 #include "Phase.hpp"
 #include "State.hpp"
+#include "Status.hpp"
 #include "Test.hpp"
 
 class Payload
