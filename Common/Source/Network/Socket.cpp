@@ -72,7 +72,7 @@ void Socket::_closeAll(void)
     }
 
     // Remove the inter-communication socket only when the backend is stopping.
-    if (mRole == kServer) {    
+    if (mRole == kServer) {
         if (!mPath.empty()) {
             unlink(mPath.c_str());
         }
@@ -186,9 +186,12 @@ ResultCode::Index_t Socket::uninit(void)
         return ResultCode::Index::kErrSockCloseSock;
     }
     _resetFd(mFdConn);
-    // Unlink socket.
-    if (!mPath.empty()) {
-        unlink(mPath.c_str());
+
+    // Unlink socket in a case of the "server" role.
+    if (mRole == kServer) {
+        if (!mPath.empty()) {
+            unlink(mPath.c_str());
+        }
     }
     // De-allocate memory if need to do that.
     if (mpCliEvt) {
@@ -279,7 +282,7 @@ int Socket::wait(uint32_t kWaitMs)
 int Socket::receive(int idx, void *pData, int length)
 {
     if (!pData || (length <= 0)) {
-        return 0;
+        return -1;
     }
     if ((idx < 0) || (idx >= mCliEvtAmt)) {
         return -1;
@@ -302,7 +305,7 @@ int Socket::receive(int idx, void *pData, int length)
 int Socket::transmit(void *pData, int length)
 {
     if (!pData || (length <= 0)) {
-        return 0;
+        return -1;
     }
     if (mFdConn == skClosedFdIdx) {
         return skClosedFdIdx;
