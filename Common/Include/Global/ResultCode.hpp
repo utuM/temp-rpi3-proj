@@ -26,7 +26,9 @@ public:
         kErrSockCloseListen,
         kErrSockCloseSock,
 
-        kErrPhaseNotSelected
+        kErrPhaseNotSelected,
+        kErrPhaseAlreadyRunning,
+        kErrPhaseNothingToRun
     } Index_t;
 };
 
