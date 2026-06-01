@@ -7,6 +7,14 @@ static PhaseSensLeak    sPhaseSensLeak;
 
 /* ************************************************************************* */
 
+Phase *PhaseManager::spAllPhases[Phase::skTotalAmt] =
+{
+    &sPhaseMotorResist, ///< this is the 'kPhaseResist'
+    &sPhaseSensResist,  ///< this is the 'kSensResist'
+    &sPhaseMotorLeak,   ///< this is the 'kMotorLeak'
+    &sPhaseSensLeak     ///< this is the 'kSensLeak'
+};
+
 Phase *PhaseManager::spSelected[Phase::skTotalAmt] = { nullptr };
 Phase *PhaseManager::spCurrent                     = nullptr;
 

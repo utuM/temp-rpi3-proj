@@ -21,6 +21,9 @@ public:
     static Status::Info_t GetStatus(void);
 
 private: 
+    /// Array of pointers to the available/possible phase instances.
+    static Phase *spAllPhases[Phase::skTotalAmt];
+
     /// Array of pointers with the selected phases ordering.
     static Phase *spSelected[Phase::skTotalAmt];
     /// Pointer to the current testing phase is running at this moment.
