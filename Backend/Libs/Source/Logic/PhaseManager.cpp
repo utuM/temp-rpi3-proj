@@ -226,7 +226,17 @@ ResultCode::Index_t PhaseManager::Control(Action::Index_t act)
         break;
     
     case Action::Index::kRestart:
-        // TODO: place a code to trigger the Backend to restart.
+        if (state == State::Index::kIdle) {
+            return ResultCode::Index::kErrPhaseInvalidState;
+        }
+        // Reset everything and do not do anything on any command, instead of
+        // repeated configuration and then starting.
+        sPhasesAmt         = 0u;
+        sPhaseIdx          = 0u;
+        sStartTickMs       = 0ul;
+        sStatus.phase.idx  = Phase::Idx2Phase(Phase::Index::kAmt);
+        sStatus.phase.step = 0u;
+        sStatus.state      = State::Index::kStopping;
         break;  
     }
     return ResultCode::Index::kNoError;
@@ -249,8 +259,50 @@ ResultCode::Index_t PhaseManager::Tick(void)
         // the error code.
         return ResultCode::Index::kErrPhaseNotSelected;
     }
+
     // Run the state machine.
-    // TODO: 
+    ResultCode::Index_t ret = ResultCode::Index::kNoError;
+    switch (sStatus.state) {
+    case State::Index::kStarting:
+        // Call the setup method for the current testing phase instance to
+        // prepare it for the processing.
+        ret = spCurrent->setup(nullptr);
+        if (ret != ResultCode::Index::kNoError) {
+            return ret;
+        }
+        // Change the manager state to the "Running" one to continue the
+        // processing.
+        sStatus.phase.idx  = Phase::Idx2Phase(sPhaseIdx);
+        sStatus.phase.step = 0u;
+        sStatus.state      = State::Index::kRunning;
+        break;
+
+    case State::Index::kRunning:
+        // Call the run method for the current testing phase instance.
+        ret = spCurrent->run();
+        if (ret != ResultCode::Index::kNoError) {
+            return ret;
+        }
+        // Update the current status.
+        sStatus.phase.step = spCurrent->getStep();
+        sStatus.durMs      = (SysTick::TicksMs() - sStartTickMs);
+        if (spCurrent->isCompleted()) {
+            // TODO: 
+        }
+        break;
+
+    case State::Index::kStopping:
+        ret = spCurrent->stop();
+        if (ret != ResultCode::Index::kNoError) {
+            return ret;
+        }
+        sStatus.state = State::Index::kIdle;
+        break;
+
+    case State::Index::kFinishing:
+        // TODO: 
+        break;
+    }
 
     return ResultCode::Index::kNoError;
 }
