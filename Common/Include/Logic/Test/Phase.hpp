@@ -27,7 +27,8 @@ public:
         kPhaseResist  = 0x00, ///< 0x00, Phase resistance measurement
         kSensorResist,        ///< 0x01, Sensor resistance meaurement
         kMotorLeak,           ///< 0x02, Motor leakage current measurement
-        kSensorLeak           ///< 0x03, Sensor leakage current measurement
+        kSensorLeak,          ///< 0x03, Sensor leakage current measurement
+        kAmt
     } Index_t;
 
     virtual ResultCode::Index_t run(void)     = 0;
@@ -64,6 +65,10 @@ public:
         case kSensorLeak:
             mStepsAmt = skPhaseSensLeakStepsAmt;
             break;
+
+        default:
+            mStepsAmt = 0;
+            break;
         }
     }
 
@@ -86,7 +91,7 @@ protected:
 
 public:
     /// Amount of possible/available testing phases for usage.
-    static const uint8_t skTotalAmt = (kSensorLeak + 1);
+    static const uint8_t skTotalAmt = kAmt;
 
     /**
      * @brief 
