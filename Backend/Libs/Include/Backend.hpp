@@ -23,7 +23,6 @@ private:
     Socket mSocket;
 
     void _processCommand(const Packet::Info_t &);
-    void _processResponse(Command::Info_t, const void *, uint8_t);
 
 public:
     Backend(void);

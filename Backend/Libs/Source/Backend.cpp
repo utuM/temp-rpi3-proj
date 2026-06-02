@@ -3,7 +3,6 @@
 #include "ExitCode.hpp"
 #include "PhaseManager.hpp"
 #include "Socket.hpp"
-#include "UnitsConverter.hpp"
 
 /* ************************************************************************* */
 
@@ -67,20 +66,6 @@ void Backend::_processCommand(const Packet::Info_t &krPacket)
     default:
         break;
     }
-}
-
-/**
- * @brief 
- * @param cmd 
- * @param kpData
- * @param len 
- */
-void Backend::_processResponse(Command::Info_t cmd, const void *kpData,
-        uint8_t len)
-{
-    Packet::Info_t response = Packet::Build(cmd,
-            reinterpret_cast<const uint8_t *>(kpData), len);
-    mSocket.transmit(reinterpret_cast<void *>(&response), Packet::skFullSize);
 }
 
 /* ************************************************************************* */
