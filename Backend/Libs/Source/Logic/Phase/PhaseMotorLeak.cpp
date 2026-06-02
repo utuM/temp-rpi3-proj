@@ -7,19 +7,7 @@
  * @param  
  * @return 
  */
-ResultCode::Index_t PhaseMotorLeak::configure(void *)
-{
-    return ResultCode::Index::kNoError;
-}
-
-/* ************************************************************************* */
-
-/**
- * @brief 
- * @param  
- * @return 
- */
-ResultCode::Index_t PhaseMotorLeak::run(void)
+ResultCode::Index_t PhaseMotorLeak::setup(void *)
 {
     return ResultCode::Index::kNoError;
 }
@@ -29,7 +17,21 @@ ResultCode::Index_t PhaseMotorLeak::run(void)
  * @param  
  * @return 
  */
-ResultCode::Index_t PhaseMotorLeak::stop(void)
+ResultCode::Index_t PhaseMotorLeak::run(void *)
+{
+    // Stoip
+    if (isCompleted()) {
+        return ResultCode::Index::kNoError;
+    }
+    return ResultCode::Index::kNoError;
+}
+
+/**
+ * @brief 
+ * @param  
+ * @return 
+ */
+ResultCode::Index_t PhaseMotorLeak::stop(void *)
 {
     return ResultCode::Index::kNoError;
 }

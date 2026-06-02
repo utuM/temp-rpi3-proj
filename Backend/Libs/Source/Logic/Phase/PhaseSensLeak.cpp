@@ -7,19 +7,7 @@
  * @param  
  * @return 
  */
-ResultCode::Index_t PhaseSensLeak::configure(void *)
-{
-    return ResultCode::Index::kNoError;
-}
-
-/* ************************************************************************* */
-
-/**
- * @brief 
- * @param  
- * @return 
- */
-ResultCode::Index_t PhaseSensLeak::run(void)
+ResultCode::Index_t PhaseSensLeak::setup(void *)
 {
     return ResultCode::Index::kNoError;
 }
@@ -29,7 +17,17 @@ ResultCode::Index_t PhaseSensLeak::run(void)
  * @param  
  * @return 
  */
-ResultCode::Index_t PhaseSensLeak::stop(void)
+ResultCode::Index_t PhaseSensLeak::run(void *)
+{
+    return ResultCode::Index::kNoError;
+}
+
+/**
+ * @brief 
+ * @param  
+ * @return 
+ */
+ResultCode::Index_t PhaseSensLeak::stop(void *)
 {
     return ResultCode::Index::kNoError;
 }

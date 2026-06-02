@@ -9,7 +9,9 @@
 class Phase
 { 
 protected:
-    virtual ResultCode::Index_t configure(void *) = 0;
+    virtual ResultCode::Index_t setup(void *) = 0;
+    virtual ResultCode::Index_t run(void *)   = 0;
+    virtual ResultCode::Index_t stop(void *)  = 0;
 
 public:
     ///
@@ -32,9 +34,6 @@ public:
         kSensorLeak,          ///< 0x03, Sensor leakage current measurement
         kAmt
     } Index_t;
-
-    virtual ResultCode::Index_t run(void)     = 0;
-    virtual ResultCode::Index_t stop(void)    = 0;
 
     /**
      * @brief 
@@ -82,15 +81,41 @@ public:
 
     /**
      * @brief 
-     * @param  pCfg 
+     * @param  pConfig 
      * @return  
      */
-    ResultCode::Index_t setup(void *pCfg)
+    ResultCode::Index_t configure(void *pConfig = nullptr)
     {
         // Reset the current step index for sure.
         mStep = 0u;
         // Call internal method for the setup of the testing phase.
-        return configure(pCfg);
+        return setup(pConfig);
+    }
+
+    /**
+     * @brief 
+     * @param  pData 
+     * @return  
+     */
+    ResultCode::Index_t process(void *pData = nullptr)
+    {
+        // Stop to running the phase if the current step index is reached the
+        // total amount of steps.
+        if (isCompleted()) {
+            return ResultCode::Index::kNoError;
+        }
+        
+        return ResultCode::Index::kNoError;
+    }
+
+    /**
+     * @brief 
+     * @param  pData 
+     * @return  
+     */
+    ResultCode::Index finish(void *pData = nullptr)
+    {
+        return ResultCode::Index::kNoError;
     }
 
 protected:

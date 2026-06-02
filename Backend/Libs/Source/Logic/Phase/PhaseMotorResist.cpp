@@ -7,19 +7,7 @@
  * @param  
  * @return 
  */
-ResultCode::Index_t PhaseMotorResist::configure(void *)
-{
-    return ResultCode::Index::kNoError;
-}
-
-/* ************************************************************************* */
-
-/**
- * @brief 
- * @param  
- * @return 
- */
-ResultCode::Index_t PhaseMotorResist::run(void)
+ResultCode::Index_t PhaseMotorResist::setup(void *)
 {
     return ResultCode::Index::kNoError;
 }
@@ -29,7 +17,17 @@ ResultCode::Index_t PhaseMotorResist::run(void)
  * @param  
  * @return 
  */
-ResultCode::Index_t PhaseMotorResist::stop(void)
+ResultCode::Index_t PhaseMotorResist::run(void *)
+{
+    return ResultCode::Index::kNoError;
+}
+
+/**
+ * @brief 
+ * @param  
+ * @return 
+ */
+ResultCode::Index_t PhaseMotorResist::stop(void *)
 {
     return ResultCode::Index::kNoError;
 }

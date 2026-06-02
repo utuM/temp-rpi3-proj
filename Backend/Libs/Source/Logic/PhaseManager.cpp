@@ -266,7 +266,7 @@ ResultCode::Index_t PhaseManager::Tick(void)
     case State::Index::kStarting:
         // Call the setup method for the current testing phase instance to
         // prepare it for the processing.
-        ret = spCurrent->setup(nullptr);
+        ret = spCurrent->configure(nullptr);
         if (ret != ResultCode::Index::kNoError) {
             return ret;
         }
@@ -279,7 +279,7 @@ ResultCode::Index_t PhaseManager::Tick(void)
 
     case State::Index::kRunning:
         // Call the run method for the current testing phase instance.
-        ret = spCurrent->run();
+        ret = spCurrent->process();
         if (ret != ResultCode::Index::kNoError) {
             return ret;
         }
@@ -294,7 +294,7 @@ ResultCode::Index_t PhaseManager::Tick(void)
         break;
 
     case State::Index::kStopping:
-        ret = spCurrent->stop();
+        ret = spCurrent->finish();
         if (ret != ResultCode::Index::kNoError) {
             return ret;
         }

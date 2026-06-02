@@ -7,19 +7,7 @@
  * @param  
  * @return 
  */
-ResultCode::Index_t PhaseSensResist::configure(void *)
-{
-    return ResultCode::Index::kNoError;
-}
-
-/* ************************************************************************* */
-
-/**
- * @brief 
- * @param  
- * @return 
- */
-ResultCode::Index_t PhaseSensResist::run(void)
+ResultCode::Index_t PhaseSensResist::setup(void *)
 {
     return ResultCode::Index::kNoError;
 }
@@ -29,7 +17,17 @@ ResultCode::Index_t PhaseSensResist::run(void)
  * @param  
  * @return 
  */
-ResultCode::Index_t PhaseSensResist::stop(void)
+ResultCode::Index_t PhaseSensResist::run(void *)
+{
+    return ResultCode::Index::kNoError;
+}
+
+/**
+ * @brief 
+ * @param  
+ * @return 
+ */
+ResultCode::Index_t PhaseSensResist::stop(void *)
 {
     return ResultCode::Index::kNoError;
 }
