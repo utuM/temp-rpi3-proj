@@ -6,6 +6,25 @@
 
 class PhaseSensResist : public Phase
 {
+private:
+    /**
+     * 
+     */
+    typedef enum Index : uint8_t
+    {
+        kStep01Setup        = 0x00,
+        kStep02Setup,
+        kStep03ZeroMult,
+        kStep04PumpConn,
+        kStep05PhaseVptoVn,
+        kStep06PhaseSptoSn,
+        kStep07PhaseVptoSn,
+        kStep08PhaseVptoSp,
+        kStep09PhaseSptoVn,
+        kStep10PhaseVntoSn,
+        kStepsAmt
+    } Index_t;
+
 public:
     /**
      * @brief 

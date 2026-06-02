@@ -6,6 +6,25 @@
 
 class PhaseSensLeak : public Phase
 {
+private:
+    /**
+     * 
+     */
+    typedef enum Index : uint8_t
+    {
+        kStep01Setup   = 0x00,
+        kStep02Setup,
+        kStep03Setup,
+        kStep04Setup,
+        kStep05Setup,
+        kStep06PreTest,
+        kStep07LeakVp,
+        kStep08LeakSn,
+        kStep09LeakSp,
+        kStep10LeakVn,
+        kStepsAmt
+    } Index_t;
+
 public:
     /**
      * @brief 

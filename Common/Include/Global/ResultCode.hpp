@@ -29,7 +29,10 @@ public:
         kErrPhaseNotSelected,
         kErrPhaseInvalidState,
         kErrPhaseAlreadyRunning,
-        kErrPhaseNothingToRun
+        kErrPhaseNothingToRun,
+        kErrPhaseStepInProgress,
+        kErrPhaseInvalidStepIdx,
+        kErrPhaseIsCompleted,
     } Index_t;
 };
 

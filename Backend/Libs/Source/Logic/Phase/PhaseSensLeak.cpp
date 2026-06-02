@@ -9,6 +9,10 @@
  */
 ResultCode::Index_t PhaseSensLeak::setup(void *)
 {
+    /**
+     * TODO: make an initialization before starting to drive sensor leakage
+     *       current measurement.
+     */
     return ResultCode::Index::kNoError;
 }
 

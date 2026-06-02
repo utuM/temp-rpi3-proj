@@ -6,6 +6,23 @@
 
 class PhaseMotorResist : public Phase
 {
+private:
+    /**
+     * 
+     */
+    typedef enum Index : uint8_t
+    {
+        kStep01Setup        = 0x00,
+        kStep02Setup,
+        kStep03ZeroMult,
+        kStep04PumpConn,
+        kStep05Phase1to2,
+        kStep06Phase1to3,
+        kStep07Phase2to3,
+        kStep08Phase3toGND,
+        kStepsAmt
+    } Index_t;
+
 public:
     /**
      * @brief 

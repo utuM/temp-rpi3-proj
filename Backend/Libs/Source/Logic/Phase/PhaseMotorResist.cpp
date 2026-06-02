@@ -9,6 +9,10 @@
  */
 ResultCode::Index_t PhaseMotorResist::setup(void *)
 {
+    /**
+     * TODO: make an initialization before starting to drive motor phase
+     *       resistance measurement.
+     */
     return ResultCode::Index::kNoError;
 }
 

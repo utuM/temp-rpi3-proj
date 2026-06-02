@@ -102,10 +102,14 @@ public:
         // Stop to running the phase if the current step index is reached the
         // total amount of steps.
         if (isCompleted()) {
-            return ResultCode::Index::kNoError;
+            return ResultCode::Index::kErrPhaseIsCompleted;
         }
-        
-        return ResultCode::Index::kNoError;
+        // Run the internal phase instance processing code for a result.
+        ResultCode::Index_t ret = run(pData);
+        if (ret == ResultCode::Index::kNoError) {
+            ++mStep;
+        }
+        return ret;
     }
 
     /**

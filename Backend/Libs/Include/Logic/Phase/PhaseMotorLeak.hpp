@@ -6,6 +6,27 @@
 
 class PhaseMotorLeak : public Phase
 {
+private:
+    /**
+     * 
+     */
+    typedef enum Index : uint8_t
+    {
+        kStep01Setup      = 0x00,
+        kStep02Setup,
+        kStep03Setup,
+        kStep04Setup,
+        kStep05Setup,
+        kStep06Setup,
+        kStep07PreTest,
+        kStep08Air,
+        kStep09Air20V,
+        kStep10AirN20V,
+        kStep11WaterN20V,
+        kStep12Water20V,
+        kStepsAmt
+    } Index_t;
+
 public:
     /**
      * @brief 

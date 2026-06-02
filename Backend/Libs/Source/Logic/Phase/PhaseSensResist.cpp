@@ -9,6 +9,10 @@
  */
 ResultCode::Index_t PhaseSensResist::setup(void *)
 {
+    /**
+     * TODO: make an initialization before starting to drive sensor resistance
+     *       measurement.
+     */
     return ResultCode::Index::kNoError;
 }
 
