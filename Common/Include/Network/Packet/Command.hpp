@@ -1,6 +1,8 @@
 #ifndef __NETWORK_PACKET_COMMAND_HPP
 #define __NETWORK_PACKET_COMMAND_HPP
 
+#include <cstdint>
+
 class Command
 {
 public:

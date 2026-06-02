@@ -73,8 +73,62 @@ public:
     {
         /// Array of measurement structure instances to be sure enough set of
         /// measurement values can be moved to the frontend.
-        Measurement::Info_t meas[Measurement::skArraySize];
+        Measurement::Info_t value[Measurement::skArraySize];
     } Measure_t;
+
+    /**
+     * @brief  
+     * @return 
+     */
+    static inline uint8_t GetHandshakeSize(void)
+    {
+        return sizeof(Handshake_t);
+    }
+
+    /**
+     * @brief  
+     * @return 
+     */
+    static inline uint8_t GetConfigSize(void)
+    {
+        return sizeof(Config_t);
+    }
+
+    /**
+     * @brief  
+     * @return 
+     */
+    static inline uint8_t GetSelectSize(void)
+    {
+        return sizeof(Select_t);
+    }
+
+    /**
+     * @brief  
+     * @return 
+     */
+    static inline uint8_t GetControlSize(void)
+    {
+        return sizeof(Control_t);
+    }
+
+    /**
+     * @brief  
+     * @return 
+     */
+    static inline uint8_t GetStatusSize(void)
+    {
+        return sizeof(Status_t);
+    }
+
+    /**
+     * @brief  
+     * @return 
+     */
+    static inline uint8_t GetMeasureSize(void)
+    {
+        return sizeof(Measure_t);
+    }
 };
 
 #endif // #ifndef __NETWORK_PACKET_PAYLOAD_PAYLOAD_HPP

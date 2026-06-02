@@ -1,9 +1,9 @@
 #ifndef __BACKEND_HPP
 #define __BACKEND_HPP
 
-#include <thread>
+#include "Command.hpp"
+#include "Packet.hpp"
 #include "Socket.hpp"
-#include "UnitsConverter.hpp"
 
 class Backend
 {
@@ -20,7 +20,10 @@ private:
     volatile bool mNeedForceStop;
 
     /// 
-    Socket mCommSock;
+    Socket mSocket;
+
+    void _processCommand(const Packet::Info_t &);
+    void _processResponse(Command::Info_t, const void *, uint8_t);
 
 public:
     Backend(void);
