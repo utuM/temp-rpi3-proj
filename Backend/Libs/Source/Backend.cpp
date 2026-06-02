@@ -1,6 +1,7 @@
 #include "Backend.hpp"
 #include "Delay.hpp"
 #include "ExitCode.hpp"
+#include "PhaseManager.hpp"
 #include "Socket.hpp"
 #include "UnitsConverter.hpp"
 
@@ -12,37 +13,55 @@
  */
 void Backend::_processCommand(const Packet::Info_t &krPacket)
 {
-    const uint8_t *pPayload = Packet::GetPayload(krPacket);
+    const uint8_t *kpPayload = Packet::GetPayload(krPacket);
+    void *pData              = nullptr;
 
     switch (krPacket.head.cmd) {
-    case Command::Info::kHandshake:
+    case Command::Info::kHandshake: {
         // Synchronize the application timestamp with the Frontend.
-        if (pPayload) {
+        if (kpPayload) {
             const Payload::Handshake_t *kpHsPack =
-                    reinterpret_cast<const Payload::Handshake_t *>(pPayload);
+                    reinterpret_cast<const Payload::Handshake_t *>(kpPayload);
             SysTick::UpdateOffset(kpHsPack->tstampMs);
         }
-        // 
-        break;
+        // Send a response back.
+        Packet::Info_t info = Packet::BuildHandshake();
+        pData = reinterpret_cast<void *>(&info);
+        mSocket.transmit(pData, Packet::skFullSize);
+    } break;
 
-    case Command::Info::kConfig:
-        
-        break;
+    case Command::Info::kConfig: {
+        if (kpPayload) {
+            const Payload::Config_t *kpConfig =
+                    reinterpret_cast<const Payload::Config_t *>(kpPayload);
+            PhaseManager::Configure(kpConfig->config);
+        }
+    } break;
 
-    case Command::Info::kSelect:
-        
-        break;
+    case Command::Info::kSelect: {
+        if (kpPayload) {
+            const Payload::Select_t *kpSelect =
+                    reinterpret_cast<const Payload::Select_t *>(kpPayload);
+            PhaseManager::Select(kpSelect->phase); 
+        }
+    } break;
 
-    case Command::Info::kControl:
-        
-        break;
+    case Command::Info::kControl: {
+        if (kpPayload) {
+            const Payload::Control_t *kpCtrl =
+                    reinterpret_cast<const Payload::Control_t *>(kpPayload);
+            PhaseManager::Control(kpCtrl->act);        
+        }
+    } break;
 
-    case Command::Info::kStatus:
-        
-        break;
+    case Command::Info::kStatus: {
+        Packet::Info_t info = Packet::BuildStatus(PhaseManager::GetStatus());
+        pData = reinterpret_cast<void *>(&info);
+        mSocket.transmit(pData, Packet::skFullSize);
+    } break;
 
     case Command::Info::kMeasure:
-        
+        // TODO: 
         break;
 
     default:
@@ -102,9 +121,7 @@ int Backend::start(void)
     // calculations on the received values.
     while (!mNeedForceStop) {
         // Run the sensors data measurements and calculations.
-        /**
-          TODO: place a code to get measured values from sensors, do calculations.
-         */
+        PhaseManager::Tick();
         // Wait for the incoming amount of events/commands should be processed.
         int inEvtAmt = mSocket.wait(skPollPeriodMs);
         if (inEvtAmt > 0) { ///< got something, process...
@@ -118,9 +135,7 @@ int Backend::start(void)
                         mSocket.disconnect();
                     } else {
                         if (Packet::Validate(pkt)) {
-                            /**
-                              TODO: place a code to process incoming commands
-                             */
+                            _processCommand(pkt);
                         }
                     }
                 }

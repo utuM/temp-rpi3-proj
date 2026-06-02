@@ -70,7 +70,7 @@ public:
     static Info_t Build(const Command::Info_t, const uint8_t *, const uint8_t);
     static bool   Unpack(const uint8_t *, const uint8_t, Info_t &);
 
-    static bool   Validate(const Info_t &);
+    static bool Validate(const Info_t &);
 
 private:
     /// 
