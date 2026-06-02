@@ -13,7 +13,6 @@
 void Backend::_processCommand(const Packet::Info_t &krPacket)
 {
     const uint8_t *kpPayload = Packet::GetPayload(krPacket);
-    void *pData              = nullptr;
 
     switch (krPacket.head.cmd) {
     case Command::Info::kHandshake: {
@@ -25,7 +24,7 @@ void Backend::_processCommand(const Packet::Info_t &krPacket)
         }
         // Send a response back.
         Packet::Info_t info = Packet::BuildHandshake();
-        pData = reinterpret_cast<void *>(&info);
+        void *pData = reinterpret_cast<void *>(&info);
         mSocket.transmit(pData, Packet::skFullSize);
     } break;
 
@@ -55,7 +54,7 @@ void Backend::_processCommand(const Packet::Info_t &krPacket)
 
     case Command::Info::kStatus: {
         Packet::Info_t info = Packet::BuildStatus(PhaseManager::GetStatus());
-        pData = reinterpret_cast<void *>(&info);
+        void *pData = reinterpret_cast<void *>(&info);
         mSocket.transmit(pData, Packet::skFullSize);
     } break;
 
