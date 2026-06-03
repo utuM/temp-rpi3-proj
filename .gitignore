@@ -1,0 +1,8 @@
+# Build artifacts
+*.o
+*.a
+*.so
+
+# Binaries
+motortester-backend
+motortester-frontend
