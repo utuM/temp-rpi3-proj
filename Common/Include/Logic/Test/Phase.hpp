@@ -7,22 +7,16 @@
 #include "State.hpp"
 
 class Phase
-{ 
+{
+    /// The amount of steps are applicable for the current testing phase.
+    const uint8_t mkStepsAmt;
+
 protected:
     virtual ResultCode::Index_t setup(void *) = 0;
     virtual ResultCode::Index_t run(void *)   = 0;
     virtual ResultCode::Index_t stop(void *)  = 0;
 
 public:
-    ///
-    static const uint8_t skPhaseMotorResistStepsAmt = 8u;
-    ///
-    static const uint8_t skPhaseSensResistStepsAmt  = 10u;
-    ///
-    static const uint8_t skPhaseMotorLeakStepsAmt   = 12u;
-    ///
-    static const uint8_t skPhaseSensLeakStepsAmt    = 10u;
-
     /**
      *
      */
@@ -43,37 +37,33 @@ public:
 
     /**
      * @brief 
-     * @param kType 
+     * @param type  
+     * @param stepsAmt 
      */
-    Phase(Index_t kType) :
-            mType(kType),
+    Phase(Index_t type, const uint8_t stepsAmt) :
+            mkStepsAmt(stepsAmt),
+            mType(type),
             mState(State::Index::kIdle),
-            mStep(0u),
-            mStepsAmt(0u)
+            mStep(0u)
     {
-        switch (kType) {
+        switch (type) {
         case kPhaseResist:
-            mStepsAmt    = skPhaseMotorResistStepsAmt;
             mDescription = "Motor Phase Resistance Measurement";
             break;
             
         case kSensorResist:
-            mStepsAmt    = skPhaseSensResistStepsAmt;
             mDescription = "Sensor Resistance Measurement";
             break;
             
         case kMotorLeak:
-            mStepsAmt    = skPhaseMotorLeakStepsAmt;
             mDescription = "Motor Leakage Current Measurement";
             break;
 
         case kSensorLeak:
-            mStepsAmt    = skPhaseSensLeakStepsAmt;
             mDescription = "Sensor Leakage Current Measurement";
             break;
 
         default:
-            mStepsAmt = 0;
             mDescription = "Unknown Phase";
             break;
         }
@@ -135,8 +125,6 @@ protected:
 
     /// Current testing step.
     uint8_t mStep;
-    /// The amount of steps are applicable for the current testing phase.
-    uint8_t mStepsAmt;
 
 public:
     /// Amount of possible/available testing phases for usage.
@@ -150,29 +138,6 @@ public:
     static inline Index_t Idx2Phase(uint8_t idx)
     {
         return ((idx <= skTotalAmt) ? static_cast<Index_t>(idx) : kAmt);
-    }
-
-    /**
-     * @brief 
-     * @param  idx 
-     * @return 
-     */
-    static inline uint8_t Phase2StepsAmt(Index_t idx)
-    {
-        switch (idx) {
-        case kPhaseResist:
-            return skPhaseMotorResistStepsAmt;
-
-        case kSensorResist:
-            return skPhaseSensResistStepsAmt;
-
-        case kMotorLeak:
-            return skPhaseMotorLeakStepsAmt;
-
-        default:
-            return skPhaseSensLeakStepsAmt;
-        }
-        return 0u;
     }
 
     /**
@@ -199,7 +164,7 @@ public:
      */
     inline uint8_t getStepsAmt(void) const
     {
-        return mStepsAmt;
+        return mkStepsAmt;
     }
 
     /**
@@ -208,7 +173,7 @@ public:
      */
     inline bool isCompleted(void) const
     {
-        return (mStep >= mStepsAmt);
+        return (mStep >= mkStepsAmt);
     }
 };
 

@@ -1,8 +1,9 @@
-#ifndef __LOGIC_PHASE_PHASE_SENSOR_RESIST_HPP
-#define __LOGIC_PHASE_PHASE_SENSOR_RESIST_HPP
+#ifndef __LOGIC_PHASE_PHASE_SENS_RESIST_HPP
+#define __LOGIC_PHASE_PHASE_SENS_RESIST_HPP
 
 #include <cstdint>
 #include "Phase.hpp"
+#include "ResultCode.hpp"
 
 class PhaseSensResist : public Phase
 {
@@ -10,7 +11,7 @@ private:
     /**
      * 
      */
-    typedef enum Index : uint8_t
+    typedef enum Step : uint8_t
     {
         kStep01Setup        = 0x00,
         kStep02Setup,
@@ -23,14 +24,17 @@ private:
         kStep09PhaseSptoVn,
         kStep10PhaseVntoSn,
         kStepsAmt
-    } Index_t;
+    } Step_t;
 
 public:
+    /// 
+    static const uint8_t skStepsAmt = Step::kStepsAmt;
+
     /**
      * @brief 
      */
     PhaseSensResist(void) :
-            Phase(kSensorResist)
+            Phase(kSensorResist, skStepsAmt)
     {}
 
     ResultCode::Index_t setup(void *) override;
@@ -38,4 +42,4 @@ public:
     ResultCode::Index_t stop(void *) override;
 };
 
-#endif // #ifndef __LOGIC_PHASE_PHASE_SENSOR_RESIST_HPP
+#endif // #ifndef __LOGIC_PHASE_PHASE_SENS_RESIST_HPP

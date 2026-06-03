@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include "Phase.hpp"
+#include "ResultCode.hpp"
 
 class PhaseSensLeak : public Phase
 {
@@ -10,7 +11,7 @@ private:
     /**
      * 
      */
-    typedef enum Index : uint8_t
+    typedef enum Step : uint8_t
     {
         kStep01Setup   = 0x00,
         kStep02Setup,
@@ -23,14 +24,17 @@ private:
         kStep09LeakSp,
         kStep10LeakVn,
         kStepsAmt
-    } Index_t;
+    } Step_t;
 
 public:
+    /// 
+    static const uint8_t skStepsAmt = Step::kStepsAmt;
+
     /**
      * @brief 
      */
     PhaseSensLeak(void) :
-            Phase(kSensorLeak)
+            Phase(Phase::Index::kSensorLeak, skStepsAmt)
     {}
 
     ResultCode::Index_t setup(void *) override;

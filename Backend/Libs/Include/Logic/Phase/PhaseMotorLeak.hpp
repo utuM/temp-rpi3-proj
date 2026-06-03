@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include "Phase.hpp"
+#include "ResultCode.hpp"
 
 class PhaseMotorLeak : public Phase
 {
@@ -10,7 +11,7 @@ private:
     /**
      * 
      */
-    typedef enum Index : uint8_t
+    typedef enum Step : uint8_t
     {
         kStep01Setup      = 0x00,
         kStep02Setup,
@@ -25,14 +26,17 @@ private:
         kStep11WaterN20V,
         kStep12Water20V,
         kStepsAmt
-    } Index_t;
+    } Step_t;
 
 public:
+    /// 
+    static const uint8_t skStepsAmt = Step::kStepsAmt;
+
     /**
      * @brief 
      */
     PhaseMotorLeak(void) :
-            Phase(kMotorLeak)
+            Phase(kMotorLeak, skStepsAmt)
     {}
 
     ResultCode::Index_t setup(void *) override;

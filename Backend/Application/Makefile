@@ -32,8 +32,10 @@ LDFLAGS  =
 SRC = $(wildcard *.cpp \
         ../../Common/Source/*.cpp ../../Common/Source/**/*.cpp \
 		../../Common/Source/**/**/*.cpp \
+		../../Common/Source/**/**/**/*.cpp \
         ../Libs/Source/*.cpp ../Libs/Source/**/*.cpp \
-		../Libs/Source/**/**/*.cpp)
+		../Libs/Source/**/**/*.cpp \
+		../Libs/Source/**/**/**/*.cpp)
 OBJ = $(SRC:.cpp=.o)
 
 PROJECT_NAME = motortester
