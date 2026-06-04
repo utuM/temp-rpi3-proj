@@ -23,8 +23,10 @@ CXXFLAGS = -std=c++17 -Wall -Wextra \
 		-I ../Libs/Include \
 		-I ../Libs/Include/Global \
 		-I ../Libs/Include/Hardware \
+		-I ../Libs/Include/Hardware/Multiplexer \
 		-I ../Libs/Include/Hardware/Sensor \
 		-I ../Libs/Include/Logic \
+		-I ../Libs/Include/Logic/Measurement \
 		-I ../Libs/Include/Logic/Phase
 		
 LDFLAGS  = 
@@ -33,9 +35,11 @@ SRC = $(wildcard *.cpp \
         ../../Common/Source/*.cpp ../../Common/Source/**/*.cpp \
 		../../Common/Source/**/**/*.cpp \
 		../../Common/Source/**/**/**/*.cpp \
+		../../Common/Source/**/**/**/**/*.cpp \
         ../Libs/Source/*.cpp ../Libs/Source/**/*.cpp \
 		../Libs/Source/**/**/*.cpp \
-		../Libs/Source/**/**/**/*.cpp)
+		../Libs/Source/**/**/**/*.cpp \
+		../Libs/Source/**/**/**/**/*.cpp)
 OBJ = $(SRC:.cpp=.o)
 
 PROJECT_NAME = motortester

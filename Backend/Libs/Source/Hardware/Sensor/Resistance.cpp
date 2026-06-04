@@ -1,1 +1,0 @@
-#include "Resistance.hpp"
