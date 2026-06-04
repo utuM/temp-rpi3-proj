@@ -11,7 +11,10 @@ public:
     {
         kNoError = 0,
 
+        kErrCommonNullPtr,
+
         kErrNodeOpenFailed,
+        kErrNodeOpenAttrFailed,
         kErrNodeReadFailed,
         kErrNodeWriteFailed,
 
@@ -36,7 +39,7 @@ public:
         kErrPhaseNothingToRun,
         kErrPhaseStepInProgress,
         kErrPhaseInvalidStepIdx,
-        kErrPhaseIsCompleted        
+        kErrPhaseIsCompleted
     } Index_t;
 };
 
