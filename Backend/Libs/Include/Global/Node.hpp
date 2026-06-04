@@ -34,7 +34,9 @@ public:
     }
 
     ResultCode::Index_t open(void);
-    void                close(void);
+    ResultCode::Index_t openAttr(const char *);
+
+    void close(void);
 
 protected:
     ResultCode::Index_t read(void *, uint32_t);

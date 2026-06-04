@@ -1,3 +1,5 @@
+#include <cstdio>
+#include <cstring>
 #include <fcntl.h>
 #include <unistd.h>
 #include "Node.hpp"
@@ -39,6 +41,20 @@ ResultCode::Index_t Node::open(void)
     mFd = ::open(mkPath, O_RDWR);
     return ((mFd != skInvalidFd) ? ResultCode::Index::kNoError :
             ResultCode::Index::kErrNodeOpenFailed);
+}
+
+/**
+ * @brief 
+ * @param  kpAttr 
+ * @return 
+ */
+ResultCode::Index_t Node::openAttr(const char *kpAttr)
+{
+    char path[128];
+    snprintf(path, sizeof(path), "%s/%s", mkPath, kpAttr);
+    mFd = ::open(path, O_RDWR);
+    return ((mFd != skInvalidFd) ? ResultCode::Index::kNoError :
+            ResultCode::Index::kErrNodeOpenAttrFailed);
 }
 
 /**
