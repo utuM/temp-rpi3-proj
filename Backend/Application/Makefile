@@ -25,6 +25,8 @@ CXXFLAGS = -std=c++17 -Wall -Wextra \
 		-I ../Libs/Include/Hardware \
 		-I ../Libs/Include/Hardware/Multiplexer \
 		-I ../Libs/Include/Hardware/Sensor \
+		-I ../Libs/Include/Hardware/Sensor/Adc \
+		-I ../Libs/Include/Hardware/Sensor/Rtd \
 		-I ../Libs/Include/Logic \
 		-I ../Libs/Include/Logic/Measurement \
 		-I ../Libs/Include/Logic/Phase
