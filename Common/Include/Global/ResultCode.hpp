@@ -12,6 +12,7 @@ public:
         kNoError = 0,
 
         kErrCommonNullPtr,
+        kErrCommonInvArg,
 
         kErrNodeOpenFailed,
         kErrNodeOpenAttrFailed,
