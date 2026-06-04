@@ -11,6 +11,10 @@ public:
     {
         kNoError = 0,
 
+        kErrNodeOpenFailed,
+        kErrNodeReadFailed,
+        kErrNodeWriteFailed,
+
         kErrSockOpenSockAlready,
         kErrSockOpenEpollAlready,
         kErrSockOpenSockNoPath,
@@ -32,7 +36,7 @@ public:
         kErrPhaseNothingToRun,
         kErrPhaseStepInProgress,
         kErrPhaseInvalidStepIdx,
-        kErrPhaseIsCompleted,
+        kErrPhaseIsCompleted        
     } Index_t;
 };
 
