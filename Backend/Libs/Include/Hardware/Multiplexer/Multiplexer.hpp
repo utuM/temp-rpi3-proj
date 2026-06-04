@@ -1,6 +1,7 @@
 #ifndef __HARDWARE_MULTIPLEXER_TMUX1209_HPP
 #define __HARDWARE_MULTIPLEXER_TMUX1209_HPP
 
+#include <string>
 #include "Gpio.hpp"
 #include "ResultCode.hpp"
 
@@ -24,6 +25,19 @@ private:
     static constexpr const char *skPath =
             "/sys/devices/platform/mtester-gpios/gpios/";
 
+    ///
+    static constexpr const char *skEnAttrPattern =
+            "mux%d_en";
+    ///
+    static constexpr const char *skA1AttrPattern =
+            "mux%d_a1";
+    ///
+    static constexpr const char *skA0AttrPattern =
+            "mux%d_a0";
+
+    ///
+    static const uint8_t skAttrSize = 12;
+
     /**
      * @brief  
      * @param  kIdx 
@@ -35,21 +49,40 @@ private:
     }
 
 public:
+    ///
+    char mAttrEn[skAttrSize];
     /// 
     Gpio mPinEn;
+
+    ///
+    char mAttrA1[skAttrSize];
     ///
     Gpio mPinA1;
+
+    ///
+    char mAttrA0[skAttrSize];
     ///
     Gpio mPinA0;
 
     /**
      * @brief 
+     * @param kIdx 
      */
-    Multiplexer(void) :
+    Multiplexer(const uint8_t kIdx) :
             mPinEn(skPath),
             mPinA1(skPath),
             mPinA0(skPath)
-    {}
+    {
+        // Open the 'EN' pin attribute for usage.
+        sprintf(mAttrEn, skEnAttrPattern, kIdx);
+        mPinEn.openAttr(mAttrEn);
+        // Open the 'A1' pin attribute for usage.
+        sprintf(mAttrA1, skA1AttrPattern, kIdx);
+        mPinA1.openAttr(mAttrA1);
+        // Open the 'A0' pin attribute for usage.
+        sprintf(mAttrA0, skA0AttrPattern, kIdx);
+        mPinA0.openAttr(mAttrA0);
+    }
 
     /**
      * @brief 
