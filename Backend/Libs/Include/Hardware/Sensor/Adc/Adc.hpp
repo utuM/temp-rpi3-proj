@@ -69,10 +69,6 @@ public:
     } Config_t;
 
 private:
-    /// 
-    static constexpr char *skPath =
-            "/sys/bus/iio/devices/iio\:device1";
-
     ///
     static const uint8_t skBufScaleSize = 16u;
 
@@ -85,10 +81,9 @@ private:
 public:
     /**
      * @brief 
-     * @param 
      */
-    Adc(const char *kpPath) :
-            Sensor(kpPath),
+    Adc(void) :
+            Sensor("/sys/bus/iio/devices/iio\\:device1"),
             mConfig{},
             mBufScale{}
     {}

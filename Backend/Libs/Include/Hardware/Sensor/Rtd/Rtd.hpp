@@ -5,10 +5,6 @@
 
 class Rtd : public Sensor
 {
-private:
-    /// 
-
-
 public:
     /**
      * 
@@ -20,10 +16,9 @@ public:
 
     /**
      * @brief 
-     * @param 
      */
-    Rtd(const char *kpPath) :
-            Sensor(kpPath)
+    Rtd(void) :
+            Sensor("/sys/bus/iio/devices/iio\\:device0")
     {}
 
     ResultCode::Index_t configure(const void *) override;
