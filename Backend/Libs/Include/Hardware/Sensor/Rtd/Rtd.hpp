@@ -5,9 +5,13 @@
 
 class Rtd : public Sensor
 {
+private:
+    /// 
+
+
 public:
     /**
-     *
+     * 
      */
     typedef struct Config
     {
