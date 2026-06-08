@@ -1,9 +1,9 @@
-#ifndef __LOGIC_MOTOR_MEASUREMENT_HPP
-#define __LOGIC_MOTOR_MEASUREMENT_HPP
+#ifndef __LOGIC_MOTOR_MEASURED_DATA_HPP
+#define __LOGIC_MOTOR_MEASURED_DATA_HPP
 
 #include <cstdint>
 
-class Measurement
+class MeasuredData
 {
 public:
     ///
@@ -38,4 +38,4 @@ public:
     } Info_t;
 };
 
-#endif // #ifndef __LOGIC_MOTOR_MEASUREMENT_HPP
+#endif // #ifndef __LOGIC_MOTOR_MEASURED_DATA_HPP
