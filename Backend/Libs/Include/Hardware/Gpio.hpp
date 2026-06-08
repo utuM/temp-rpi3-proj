@@ -30,6 +30,24 @@ private:
         return ret;
     }
 
+    /**
+     * @brief 
+     * @param  kNeedHigh 
+     * @return 
+     */
+    inline ResultCode::Index_t _update(const char* kpAttr, bool kNeedHigh)
+    {
+        // Do not continue with processing if cannot open the file descriptor.
+        ResultCode::Index_t ret = open();
+        if (ret != ResultCode::Index::kNoError) {
+            return ret;
+        }
+        // Change the level based on the required one.
+        ret = write(kNeedHigh ? skHigh : skLow, 1);
+        close();
+        return ret;
+    }
+
 public:
     /**
      * @brief  
@@ -39,8 +57,8 @@ public:
             Node(kpPath)
     {}
 
-    ResultCode::Index_t set(void);
-    ResultCode::Index_t reset(void);
+    ResultCode::Index_t set(const char* kpAttr = nullptr);
+    ResultCode::Index_t reset(const char* kpAttr = nullptr);
 
     bool get(void);
 };

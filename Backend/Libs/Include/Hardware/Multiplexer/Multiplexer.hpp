@@ -72,17 +72,7 @@ public:
             mPinEn(skPath),
             mPinA1(skPath),
             mPinA0(skPath)
-    {
-        // Open the 'EN' pin attribute for usage.
-        sprintf(mAttrEn, skEnAttrPattern, kIdx);
-        mPinEn.openAttr(mAttrEn);
-        // Open the 'A1' pin attribute for usage.
-        sprintf(mAttrA1, skA1AttrPattern, kIdx);
-        mPinA1.openAttr(mAttrA1);
-        // Open the 'A0' pin attribute for usage.
-        sprintf(mAttrA0, skA0AttrPattern, kIdx);
-        mPinA0.openAttr(mAttrA0);
-    }
+    {}
 
     /**
      * @brief 

@@ -7,9 +7,10 @@
 class Node
 {
 private:
-    // 
+    /// 
     const char *mkPath;
-    // 
+
+    /// 
     int        mFd;
 
 public:
@@ -23,7 +24,7 @@ public:
     Node(const char *kpPath) :
             mkPath(kpPath),
             mFd(skInvalidFd)
-    {}
+    {}            
 
     /**
      * @brief 

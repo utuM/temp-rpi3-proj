@@ -7,19 +7,27 @@ constexpr const char *Gpio::skLow;
 
 /**
  * @brief  
+ * @param  kpAttr 
  * @return 
  */
-ResultCode::Index_t Gpio::set(void)
+ResultCode::Index_t Gpio::set(const char *kpAttr)
 {
+    if (kpAttr && kpAttr[0]) {
+        return _update(kpAttr, true);
+    }
     return _update(true);
 }
 
 /**
  * @brief  
+ * @param  kpAttr 
  * @return 
  */
-ResultCode::Index_t Gpio::reset(void)
+ResultCode::Index_t Gpio::reset(const char *kpAttr)
 {
+    if (kpAttr && kpAttr[0]) {
+        return _update(kpAttr, false);
+    }
     return _update(false);
 }
 
