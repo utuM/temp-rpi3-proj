@@ -32,13 +32,14 @@ private:
 
     /**
      * @brief 
+     * @param  kpAttr 
      * @param  kNeedHigh 
      * @return 
      */
-    inline ResultCode::Index_t _update(const char* kpAttr, bool kNeedHigh)
+    inline ResultCode::Index_t _update(const char *kpAttr, bool kNeedHigh)
     {
         // Do not continue with processing if cannot open the file descriptor.
-        ResultCode::Index_t ret = open();
+        ResultCode::Index_t ret = openAttr(kpAttr);
         if (ret != ResultCode::Index::kNoError) {
             return ret;
         }
@@ -57,10 +58,10 @@ public:
             Node(kpPath)
     {}
 
-    ResultCode::Index_t set(const char* kpAttr = nullptr);
-    ResultCode::Index_t reset(const char* kpAttr = nullptr);
+    ResultCode::Index_t set(const char *kpAttr = nullptr);
+    ResultCode::Index_t reset(const char *kpAttr = nullptr);
 
-    bool get(void);
+    bool get(const char *kpAttr = nullptr);
 };
 
 #endif // #ifndef __HARDWARE_GPIO_HPP

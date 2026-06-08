@@ -33,13 +33,18 @@ ResultCode::Index_t Gpio::reset(const char *kpAttr)
 
 /**
  * @brief  
+ * @param  kpAttr 
  * @return 
  */
-bool Gpio::get(void)
+bool Gpio::get(const char *kpAttr)
 {
     char buf[2] = {};
     // Do not continue with processing if cannot open the file descriptor.
-    if (open() != ResultCode::Index::kNoError) {
+    if (kpAttr && kpAttr[0]) {
+        if (openAttr(kpAttr) != ResultCode::Index::kNoError) {
+            return false;
+        }
+    } else if (open() != ResultCode::Index::kNoError) {
         return false;
     }
     // Get the state and process the output.

@@ -26,13 +26,13 @@ private:
             "/sys/devices/platform/mtester-gpios/gpios/";
 
     ///
-    static constexpr const char *skEnAttrPattern =
+    static constexpr const char *skAttrEnPattern =
             "mux%d_en";
     ///
-    static constexpr const char *skA1AttrPattern =
+    static constexpr const char *skAttrA1Pattern =
             "mux%d_a1";
     ///
-    static constexpr const char *skA0AttrPattern =
+    static constexpr const char *skAttrA0Pattern =
             "mux%d_a0";
 
     ///
@@ -72,7 +72,11 @@ public:
             mPinEn(skPath),
             mPinA1(skPath),
             mPinA0(skPath)
-    {}
+    {
+        sprintf(mAttrEn, skAttrEnPattern, kIdx);
+        sprintf(mAttrA1, skAttrA1Pattern, kIdx);
+        sprintf(mAttrA0, skAttrA0Pattern, kIdx);
+    }
 
     /**
      * @brief 
@@ -106,8 +110,8 @@ private:
      */
     inline void _muxEnableIfNot(const bool kShouldIgnore)
     {
-        if (!kShouldIgnore && !mPinEn.get()) {
-            mPinEn.set();
+        if (!kShouldIgnore && !mPinEn.get(mAttrEn)) {
+            mPinEn.set(mAttrEn);
         }
     }
 };
