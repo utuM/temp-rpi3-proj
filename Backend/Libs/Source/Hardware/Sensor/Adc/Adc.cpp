@@ -1,6 +1,3 @@
-#include <climits>
-#include <cstdlib>
-#include <cstring>
 #include "Adc.hpp"
 
 constexpr const char *Adc::skRanges[];
@@ -40,7 +37,7 @@ int32_t Adc::read(void)
     if (openAttr(kpAttr) != ResultCode::Index::kNoError) {
         return INT32_MIN;
     }
-    Node::read(mBufRaw, skBufRawSize - 1);
+    Node::read(mRaw, skBufRawSize - 1);
     close();
     // Read current scale factor, to calculate the measured voltage, in
     // milivots.
@@ -50,7 +47,7 @@ int32_t Adc::read(void)
     Node::read(mBufScale, skBufScaleSize - 1);
     close();
     // Make a calculation based on the read measurement and scale factor.
-    const int32_t raw = static_cast<int32_t>(strtol(mBufRaw, nullptr, 10));
+    const int32_t raw = static_cast<int32_t>(strtol(mRaw, nullptr, 10));
     const float scale = strtof(mBufScale, nullptr);
 
     return static_cast<int32_t>(static_cast<float>(raw) * scale);
