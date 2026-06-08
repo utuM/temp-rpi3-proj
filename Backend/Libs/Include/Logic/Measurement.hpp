@@ -1,5 +1,5 @@
-#ifndef __LOGIC_MEASUREMENT_HPP
-#define __LOGIC_MEASUREMENT_HPP
+#ifndef __LOGIC_MEASURED_DATA_HPP
+#define __LOGIC_MEASURED_DATA_HPP
 
 #include <cstdint>
 #include "ResultCode.hpp"

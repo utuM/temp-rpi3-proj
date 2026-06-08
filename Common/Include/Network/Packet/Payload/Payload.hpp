@@ -73,7 +73,7 @@ public:
     {
         /// Array of measurement structure instances to be sure enough set of
         /// measurement values can be moved to the frontend.
-        Measurement::Info_t value[Measurement::skArraySize];
+        MeasuredData::Info_t value[Measurement::skArraySize];
     } Measure_t;
 
     /**
