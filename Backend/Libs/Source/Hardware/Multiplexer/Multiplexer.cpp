@@ -36,7 +36,7 @@ ResultCode::Index_t Multiplexer::select(const Config_t kConfig,
         break;
 
     case kMuxOff:
-        mPinEn.reset();
+        mPinEn.reset(mAttrEn);
         break;
 
     default:
