@@ -1,19 +1,30 @@
 #ifndef __HARDWARE_SENSOR_HPP
 #define __HARDWARE_SENSOR_HPP
 
+#include <climits>
+#include <cstdlib>
 #include <cstdint>
+#include <cstring>
 #include "Node.hpp"
 #include "ResultCode.hpp"
 
 class Sensor : public Node
 {
+protected:
+    ///
+    static const uint8_t skBufRawSize = 24u;
+
+    ///
+    char mRaw[skBufRawSize];
+
 public:
     /**
      * @brief 
      * @param 
      */
     Sensor(const char *kpPath) :
-            Node(kpPath)
+            Node(kpPath),
+            mRaw{}
     {}
 
     /**
